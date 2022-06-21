@@ -38,7 +38,11 @@ class ViewController: UIViewController {
         mediumButton.isEnabled = true
         hardButton.isEnabled = true
         nameLabel.text = "Soft"
-        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(stepBackSoft), userInfo: nil, repeats: true)
+        if !timer.isValid{
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(stepBackSoft), userInfo: nil, repeats: true)
+        }
+        SliderButton.minimumValue = 0
+        SliderButton.maximumValue = 5
     }
     
     @IBAction func mediumEgg(_ sender: UIButton) {
@@ -47,7 +51,11 @@ class ViewController: UIViewController {
         mediumButton.isEnabled = false
         hardButton.isEnabled = true
         nameLabel.text = "Medium"
-        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(stepBackMedium), userInfo: nil, repeats: true)
+        if !timer.isValid{
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(stepBackMedium), userInfo: nil, repeats: true)
+    }
+        SliderButton.minimumValue = 0
+        SliderButton.maximumValue = 10
     }
     
     @IBAction func hardEgg(_ sender: UIButton) {
@@ -56,21 +64,36 @@ class ViewController: UIViewController {
         mediumButton.isEnabled = true
         hardButton.isEnabled = false
         nameLabel.text = "Hard"
-        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(stepBackHard), userInfo: nil, repeats: true)
+        if !timer.isValid{
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(stepBackHard), userInfo: nil, repeats: true)
+        }
+        SliderButton.minimumValue = 0
+        SliderButton.maximumValue = 15
     }
     
     @objc func stepBackSoft (){
-        if counterSoft != soft{
-            counterSoft += 1
+        for _ in soft ... 0{
+            counterSoft -= 1
                 timeLabel.text = "\(counterSoft)"
             SliderButton.value = Float (counterSoft)
-            print("Soft: \(counterSoft)")
-        }else {
+        }
+        if counterSoft == 0{
             timer.invalidate()
             timeLabel.text = "\(soft)"
             nameLabel.text = "Your egg is ready"
             timer.invalidate()
         }
+//        if counterSoft != soft{
+//            counterSoft += 1
+//                timeLabel.text = "\(counterSoft)"
+//            SliderButton.value = Float (counterSoft)
+//            print("Soft: \(counterSoft)")
+//        }else {
+//            timer.invalidate()
+//            timeLabel.text = "\(soft)"
+//            nameLabel.text = "Your egg is ready"
+//            timer.invalidate()
+//        }
         }
     
     @objc func stepBackMedium (){
